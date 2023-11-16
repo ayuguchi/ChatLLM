@@ -1,11 +1,14 @@
 import torch
 from transformers import AutoTokenizer, AutoModelForCausalLM
+from colorama import Fore, Back, Style, init
+
+init(autoreset=True)
 
 tokenizer = AutoTokenizer.from_pretrained("rinna/japanese-gpt-neox-3.6b-instruction-sft", use_fast=False, cache_dir="./")
 model = AutoModelForCausalLM.from_pretrained("rinna/japanese-gpt-neox-3.6b-instruction-sft", cache_dir="./")
 
-if torch.cuda.is_available():
-    model = model.to("cuda")
+# if torch.cuda.is_available():
+    # model = model.to("cuda")
 
 messages = []
 
@@ -45,4 +48,4 @@ while True:
     output = tokenizer.decode(output_ids.tolist()[0][token_ids.size(1):])
     messages.append('システム: ' + output)
     output = output.replace("<NL>", "\n")
-    print('リンナ: ' + output)
+    print(Fore.YELLOW + 'リンナ: ' + output)
